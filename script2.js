@@ -17,8 +17,7 @@ class ContaBanco {
 
     debito(valor) {
         if (valor > this.saldo) {
-            alert("Saldo insuficiente!")
-            return;
+            alert("Saldo insuficiente!");
         } else {
             this.saldo -= valor;
             alert("Novo saldo R$ "+this.saldo);
