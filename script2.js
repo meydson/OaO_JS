@@ -1,5 +1,5 @@
 let Contas = [];
-let numeroConta = 1;
+let numeroConta = 3;
 
 class ContaBanco {
     constructor(nome, telefone, dataNascimento, saldo, numConta) {
@@ -31,6 +31,7 @@ class ContaBanco {
 
 Contas.push(new ContaBanco("Meydson","81 987654321", "10/01/2014", 1000, 1));
 Contas.push(new ContaBanco("Bryan", "81 123456789", "12/06/2017", 1000, 2));
+
 
 function criarConta() {
     nome = prompt("Informe o nome");
@@ -104,8 +105,31 @@ function transferirConta() {
         return;
     }
     let valor = parseFloat(prompt("Informe o valor da transferência!"));
-    posContaOrigem.debito(valor);
-    posContaDestino.credito(valor);
+    if (valor > posContaOrigem.saldo) {
+        alert("Saldo insuficiente");
+    } else {
+        posContaOrigem.debito(valor);
+        posContaDestino.credito(valor);
+    }
+}
 
+function removerConta() {
+    let contaUsuario = parseInt(prompt("Informe a conta que deseja remover"))
+    let validar = true;
+    for (i = 0; i < Contas.length; i++) {
+        if (contaUsuario == Contas[i].numConta) {
+            Contas.splice(i,1);
+            alert("Conta removida com sucesso!");
+            validar = false;
+            break;
+        }
+    }
+    if (validar) {
+        alert("Conta inexistente!");
+    }
 
+}
+
+function exibirContas() {
+    console.log(Contas);
 }
