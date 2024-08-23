@@ -2,12 +2,13 @@ let Contas = [];
 let numeroConta = 3;
 
 class ContaBanco {
-    constructor(nome, telefone, dataNascimento, saldo, numConta) {
+    constructor(nome, telefone, dataNascimento, saldo, numConta, limite) {
         this.nome = nome;
         this.telefone = telefone;
         this.dataNascimento = dataNascimento;
         this.saldo = saldo;
         this.numConta = numConta;
+        this.limite = limite;
     }
 
     credito(valor) {
@@ -25,12 +26,22 @@ class ContaBanco {
     }
 
     Exibir() {
-        alert("Nome: "+this.nome+", Telefone: "+this.telefone+", data de nascimento: "+this.dataNascimento+", saldo: R$ "+this.saldo+', Número da conta: '+this.numConta);
+        alert("Nome: "+this.nome+", Telefone: "+this.telefone+", data de nascimento: "+this.dataNascimento+", saldo: R$ "+this.saldo+', Número da conta: '+this.numConta+" Seu limite atual é de R$ "+this.limite);
+    }
+
+    emprestimo(valor) {
+        if (valor > this.limite) {
+            alert("Limite indisponível, você só possui R$ "+this.limite+" disponível para essa operação!")
+        } else {
+            this.limite -= valor;
+            this.saldo += valor;
+            alert("Novo saldo R$ "+this.saldo+" Seu limite atual é de R$ "+this.limite)
+        }
     }
 }
 
-Contas.push(new ContaBanco("Meydson","81 987654321", "10/01/2014", 1000, 1));
-Contas.push(new ContaBanco("Bryan", "81 123456789", "12/06/2017", 1000, 2));
+Contas.push(new ContaBanco("Meydson","81 987654321", "10/01/2014", 1000, 1,1000));
+Contas.push(new ContaBanco("Bryan", "81 123456789", "12/06/2017", 1000, 2,1000));
 
 
 function criarConta() {
@@ -38,7 +49,7 @@ function criarConta() {
     telefone = prompt("Informe o telefone");
     dataNascimento = prompt("Informe a data de Nascimento");
 
-    Contas.push(new ContaBanco(nome, telefone, dataNascimento, 1000, numeroConta));
+    Contas.push(new ContaBanco(nome, telefone, dataNascimento, 1000, numeroConta,1000));
     numeroConta++;
 }
 
@@ -127,7 +138,19 @@ function removerConta() {
     if (validar) {
         alert("Conta inexistente!");
     }
+}
 
+function emprestimoConta() {
+    let contaUsuario = parseInt(prompt("Informe a conta que deseja realizar o empréstimo"));
+    let valor = parseFloat(prompt("Informe o valor do empréstimo"))
+    let validar = true;
+    Contas.forEach(i => {if(i.numConta == contaUsuario)
+        i.emprestimo(valor);
+        validar = false;
+    })
+    if (validar) {
+        alert("Conta inexistente")
+    }
 }
 
 function exibirContas() {
